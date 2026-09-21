@@ -1,0 +1,546 @@
+/* ==========================================================================
+   Árbol de Flores Amarillas / Girasoles en Corazón
+   Estilos CSS - Elegante, Minimalista y Cálido
+   ========================================================================== */
+
+:root {
+  --bg-color: #f5f2ea;
+  --bg-color-alt: #ece8dd;
+  --card-bg: #fffdf9;
+  --text-dark: #2c2520;
+  --text-muted: #6b5e52;
+  --gold-primary: #d49a1d;
+  --gold-dark: #9c6c0b;
+  --gold-light: #fef3c7;
+  --sunflower-yellow: #ffb703;
+  --sunflower-brown: #38220f;
+  --stem-green: #38572b;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Cinzel', serif;
+  --font-script: 'Dancing Script', cursive;
+  --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --shadow-card: 0 16px 40px rgba(65, 45, 15, 0.09), 0 2px 8px rgba(65, 45, 15, 0.04);
+  --radius-card: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  font-family: var(--font-sans);
+  color: var(--text-dark);
+  position: relative;
+}
+
+/* Sutil brillo ambiental de fondo */
+.ambient-glow {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 60% 45%, rgba(255, 248, 225, 0.8) 0%, rgba(245, 242, 234, 0.5) 60%, rgba(235, 229, 218, 0.7) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   PANTALLA DE INICIO (Botón Girasol "Click Aquí")
+   ========================================================================== */
+
+.start-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.start-screen.hidden {
+  opacity: 0;
+  transform: scale(0.65);
+  pointer-events: none;
+}
+
+.start-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2.5rem 3rem;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 154, 29, 0.25);
+  box-shadow: 0 12px 36px rgba(110, 85, 30, 0.1), 0 2px 6px rgba(110, 85, 30, 0.04);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, background 0.3s ease;
+}
+
+.start-card:hover, .start-card:focus-visible {
+  transform: translateY(-6px) scale(1.03);
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(212, 154, 29, 0.5);
+  box-shadow: 0 20px 48px rgba(110, 85, 30, 0.16), 0 4px 12px rgba(212, 154, 29, 0.2);
+}
+
+.sunflower-btn-visual {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sunflower-glow {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 213, 79, 0.55) 0%, rgba(255, 183, 3, 0.15) 60%, transparent 80%);
+  animation: pulse-glow 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.sunflower-svg {
+  width: 110px;
+  height: 110px;
+  animation: float-flower 4s ease-in-out infinite, rotate-slow 28s linear infinite;
+  transform-origin: center center;
+  filter: drop-shadow(0 6px 12px rgba(100, 70, 10, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.start-card:hover .sunflower-svg {
+  transform: scale(1.08) rotate(15deg);
+}
+
+.start-btn-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-text {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.btn-text::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+  transition: width 0.3s ease;
+}
+
+.start-card:hover .btn-text {
+  color: #7b4f05;
+}
+
+.start-card:hover .btn-text::after {
+  width: 100%;
+  left: 0;
+}
+
+.btn-subtext {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+/* Animaciones del botón inicial */
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.85;
+  }
+}
+
+@keyframes float-flower {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   ESCENA PRINCIPAL & CANVAS
+   ========================================================================== */
+
+.main-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+#tree-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 5;
+}
+
+/* ==========================================================================
+   TARJETA DE MENSAJE (LADO IZQUIERDO)
+   ========================================================================== */
+
+.card-container {
+  position: absolute;
+  top: 50%;
+  left: 6vw;
+  transform: translateY(-50%) translateX(-40px);
+  width: min(500px, 42vw);
+  max-height: 90vh;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-container.visible {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+  pointer-events: auto;
+}
+
+.letter-card {
+  position: relative;
+  background: var(--card-bg);
+  border-radius: var(--radius-card);
+  padding: 2.5rem 2.2rem;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(212, 154, 29, 0.32);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+/* Detalle sutil de papel pergamino suave */
+.letter-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(255, 236, 179, 0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Decoraciones en las esquinas */
+.card-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(212, 154, 29, 0.6);
+  pointer-events: none;
+}
+
+.card-corner.top-left {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.card-corner.top-right {
+  top: 10px;
+  right: 10px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.card-corner.bottom-left {
+  bottom: 10px;
+  left: 10px;
+  border-right: none;
+  border-top: none;
+}
+
+.card-corner.bottom-right {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Encabezado */
+.card-header {
+  text-align: center;
+  margin-bottom: 1.6rem;
+  position: relative;
+}
+
+.header-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--gold-dark);
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.title-underline {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+  margin: 0.6rem auto 0;
+}
+
+/* Contenido / Cuerpo del texto */
+.card-body {
+  margin-bottom: 1.6rem;
+}
+
+.typewriter-content {
+  font-family: var(--font-serif);
+  font-size: clamp(0.95rem, 1.45vw, 1.15rem);
+  line-height: 1.85;
+  color: var(--text-dark);
+  letter-spacing: 0.3px;
+  min-height: 130px;
+}
+
+.message-line {
+  margin-bottom: 0.9rem;
+  display: block;
+}
+
+.message-line.highlight-strong {
+  font-weight: 700;
+  color: #78490a;
+  letter-spacing: 1px;
+  margin-top: 1.2rem;
+  font-size: 1.15em;
+}
+
+/* Cursor de máquina de escribir */
+.typewriter-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.15em;
+  background-color: var(--gold-primary);
+  margin-left: 3px;
+  vertical-align: middle;
+  animation: blink-cursor 0.75s infinite;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Divisor decorativo */
+.card-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.2rem 0;
+  opacity: 0.8;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 154, 29, 0.4), transparent);
+}
+
+.divider-icon {
+  font-size: 0.85rem;
+  color: var(--gold-primary);
+  letter-spacing: 4px;
+}
+
+/* Pie de página con frase cursiva */
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-footer.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.script-quote {
+  font-family: var(--font-script);
+  font-size: clamp(1.2rem, 2.1vw, 1.55rem);
+  color: #8c5a14;
+  line-height: 1.4;
+  font-weight: 600;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.footer-mini-sunflower {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse-flower 3s ease-in-out infinite;
+}
+
+@keyframes pulse-flower {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.18) rotate(15deg); }
+}
+
+/* ==========================================================================
+   CONTROLES FLOTANTES
+   ========================================================================== */
+
+.floating-controls {
+  position: fixed;
+  bottom: 24px;
+  right: 28px;
+  display: flex;
+  gap: 12px;
+  z-index: 50;
+}
+
+.ctrl-btn {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(212, 154, 29, 0.35);
+  border-radius: 40px;
+  padding: 8px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(70, 50, 20, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, opacity 0.4s ease;
+}
+
+.ctrl-btn:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  border-color: var(--gold-primary);
+  box-shadow: 0 6px 18px rgba(212, 154, 29, 0.2);
+}
+
+.ctrl-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+.ctrl-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   ADAPTABILIDAD RESPONSIVE (Móviles y Tablets)
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .card-container {
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(40px);
+    width: 90vw;
+    max-width: 440px;
+    top: auto;
+    bottom: 24px;
+    max-height: 55vh;
+  }
+
+  .card-container.visible {
+    transform: translate(-50%, 0);
+  }
+
+  .letter-card {
+    padding: 1.6rem 1.4rem;
+    background: rgba(255, 253, 249, 0.94);
+    box-shadow: 0 10px 30px rgba(60, 45, 15, 0.16);
+  }
+
+  .typewriter-content {
+    min-height: 100px;
+    line-height: 1.65;
+  }
+
+  .message-line {
+    margin-bottom: 0.55rem;
+  }
+
+  .floating-controls {
+    bottom: 12px;
+    right: 16px;
+  }
+
+  .start-card {
+    padding: 2rem 2.2rem;
+  }
+
+  .sunflower-svg {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+@media (max-height: 600px) {
+  .card-container {
+    max-height: 94vh;
+  }
+  .letter-card {
+    padding: 1.2rem 1.4rem;
+  }
+  .card-header {
+    margin-bottom: 0.8rem;
+  }
+  .card-body {
+    margin-bottom: 0.8rem;
+  }
+}
